@@ -37,13 +37,7 @@
   const stopButton = document.querySelector('#stop');
 
   //Your code goes here
-	const msg = new SpeechSynthesisUtterance();
-let voices = [];
-
-const voicesDropdown = document.querySelector('[name="voice"]');
-const options = document.querySelectorAll('[type="range"], [name="text"]');
-const speakButton = document.querySelector('#speak');
-const stopButton = document.querySelector('#stop');
+	let voices = [];
 
 // Load voices
 function populateVoices() {
@@ -54,31 +48,31 @@ function populateVoices() {
     .join('');
 }
 
-// 🎤 Set selected voice
+// Set voice
 function setVoice() {
   msg.voice = voices.find(voice => voice.name === this.value);
-  speak(); // restart speech if changed
+  speak();
 }
 
-// Speak function
+// Speak
 function speak() {
-  if (!msg.text) return; // prevent empty text
+  if (!msg.text) return;
 
-  speechSynthesis.cancel(); // stop previous
+  speechSynthesis.cancel();
   speechSynthesis.speak(msg);
 }
 
-// Stop function
+// Stop
 function stop() {
   speechSynthesis.cancel();
 }
 
-// 🎚 Update rate, pitch, text
+// Update rate, pitch, text
 function setOption() {
   msg[this.name] = this.value;
 }
 
-// Events
+// EVENTS
 speechSynthesis.addEventListener('voiceschanged', populateVoices);
 voicesDropdown.addEventListener('change', setVoice);
 
@@ -87,7 +81,7 @@ options.forEach(option => option.addEventListener('change', setOption));
 speakButton.addEventListener('click', () => {
   msg.text = document.querySelector('[name="text"]').value;
 
-  if (!msg.text.trim()) return; // empty check
+  if (!msg.text.trim()) return;
 
   speak();
 });
